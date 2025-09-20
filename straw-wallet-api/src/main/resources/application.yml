@@ -1,0 +1,9 @@
+#Configuração para conexão com o banco de dados PostgreSQL
+spring:
+  application:
+    name: straw-wallet-api
+  datasource:
+    url: jdbc:postgresql://localhost:5432/strawwalletdb
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver

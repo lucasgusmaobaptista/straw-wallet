@@ -1,4 +1,4 @@
-/target/
+/straw-wallet-api/target/
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###
