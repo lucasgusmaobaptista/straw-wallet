@@ -2,13 +2,25 @@ package me.lucasgusmao.straw_wallet_api.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import me.lucasgusmao.straw_wallet_api.dto.AuthDTO;
 import me.lucasgusmao.straw_wallet_api.dto.UserDTO;
+import me.lucasgusmao.straw_wallet_api.event.UserRegisteredEvent;
+import me.lucasgusmao.straw_wallet_api.exceptions.custom.InvalidCredentialsException;
 import me.lucasgusmao.straw_wallet_api.mappers.UserMapper;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.UserRepository;
+import me.lucasgusmao.straw_wallet_api.util.JwtUtils;
 import me.lucasgusmao.straw_wallet_api.validator.UserValidator;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -19,6 +31,10 @@ public class UserService {
     private final UserMapper mapper;
     private final UserValidator userValidator;
     private final EmailService emailService;
+    private final PasswordEncoder encoder;
+    private final ApplicationEventPublisher applicationEventPublisher;
+    private final AuthenticationManager authenticationManager;
+    private final JwtUtils jwtUtils;
 
     @Transactional
     public UserDTO register(UserDTO userDTO) {
@@ -28,14 +44,44 @@ public class UserService {
         newUser.setUsername(username);
         userValidator.validate(newUser);
         newUser.setActivationToken(UUID.randomUUID().toString());
+        newUser.setPassword(encoder.encode(newUser.getPassword()));
+
         User savedUser = repository.save(newUser);
 
-        String activationLink = "http://localhost:8080/api/v1/activate?token=" + savedUser.getActivationToken();
-        String subject = "STRAW WALLET - Falta um passo para ativar sua conta!";
-        String body = "Clique no link abaixo e ative sua conta para ter acesso completo à nossa plataforma!\n" + activationLink;
-        emailService.sendEmail(newUser.getEmail(), subject, body);
+        applicationEventPublisher.publishEvent(new UserRegisteredEvent(savedUser));
 
         return mapper.toDTO(savedUser);
+    }
+
+    public User getCurrentUSer() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        return repository.findByUsername(authentication.getName())
+                .orElseThrow(() -> new UsernameNotFoundException("Usuário: " +   authentication.getName() + " não encontrado"));
+    }
+
+    public UserDTO getUser(String username) {
+        User currentUser;
+        if (username == null) {
+            currentUser = getCurrentUSer();
+        } else {
+            currentUser = repository.findByUsername(username)
+                    .orElseThrow(() -> new UsernameNotFoundException("Usuário: " + username + " não encontrado"));
+        }
+        return mapper.toDTO(currentUser);
+    }
+
+    public Map<String, Object> authenticateAndGenerateToken(AuthDTO dto) {
+        try {
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(dto.username(), dto.password()));
+            String token = jwtUtils.generateJwtToken(authenticate);
+            return Map.of(
+                    "token", token,
+                    "user", getUser(dto.username())
+            );
+        } catch (Exception e) {
+            throw new InvalidCredentialsException("Uduário ou senha inválidos");
+        }
     }
 
     public boolean activateProfile(String activationToken) {
@@ -45,6 +91,12 @@ public class UserService {
                     repository.save(user);
                     return true;
                 }).orElse(false);
+    }
+
+    public boolean isUserActive(String username) {
+        return repository.findByUsername(username)
+                .map(User::getIsActive)
+                .orElse(false);
     }
 
     private String extractUsernameFromEmail(String email) {
