@@ -30,8 +30,9 @@ public class Category {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
-    private String type;
+    private CategoryType type;
 
     @Column(name = "icon")
     private String icon;
