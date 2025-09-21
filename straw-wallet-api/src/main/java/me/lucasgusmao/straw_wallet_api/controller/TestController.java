@@ -13,4 +13,9 @@ public class TestController {
     public String testEndpoint() {
         return "Test successful! Application is running.";
     }
+
+    @GetMapping("/secure")
+    public String securityTest() {
+        return "Security test successful! You are authenticated.";
+    }
 }
