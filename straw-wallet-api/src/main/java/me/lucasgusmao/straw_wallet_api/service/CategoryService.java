@@ -9,6 +9,8 @@ import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class CategoryService {
@@ -18,7 +20,7 @@ public class CategoryService {
     private final CategoryMapper mapper;
 
     public CategoryDTO save(CategoryDTO dto) {
-        User user = userService.getCurrentUSer();
+        User user = userService.getCurrentUser();
         if (repository.existsByNameAndUserId(dto.name(), user.getId())) {
             throw new AlreadyExistsException("Já existe uma categoria com esse nome!");
         }
@@ -27,4 +29,11 @@ public class CategoryService {
         Category savedCategpry = repository.save(category);
         return mapper.toDTO(savedCategpry);
     }
+
+    public List<CategoryDTO> findCurrentUserCategories() {
+        User user = userService.getCurrentUser();
+        List<Category> categories = repository.findByUserId(user.getId());
+        return categories.stream().map(mapper::toDTO).toList();
+    }
+
 }
