@@ -5,12 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public record UserDTO(
         @NotBlank(message = "Campo obrigatório!")
         String name,
-        @NotBlank(message = "Campo obrigatório!")
         @Size(min = 3, max = 50, message = "O nome de usuário deve ter entre 3 e 50 caracteres.")
         String username,
         @NotBlank(message = "Campo obrigatório!")
