@@ -32,3 +32,6 @@ server:
   servlet:
     context-path: /api/v1
 
+jwt:
+  secret: dGVzdGVfc2VjcmV0X2tleV9mb3Jfand0X3Rva2VuX2dlbmVyYXRpb25fMTIzNDU2Nzg5MA==
+  expiration: 86400000
