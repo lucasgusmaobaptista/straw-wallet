@@ -1,6 +1,7 @@
 package me.lucasgusmao.straw_wallet_api.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,7 +12,6 @@ public record CategoryDTO(
         String name,
         String type,
         String icon,
-        @NotBlank(message = "Campo obrigatório!")
         UUID userId,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
