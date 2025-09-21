@@ -53,7 +53,7 @@ public class UserService {
         return mapper.toDTO(savedUser);
     }
 
-    public User getCurrentUSer() {
+    public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         return repository.findByUsername(authentication.getName())
@@ -63,7 +63,7 @@ public class UserService {
     public UserDTO getUser(String username) {
         User currentUser;
         if (username == null) {
-            currentUser = getCurrentUSer();
+            currentUser = getCurrentUser();
         } else {
             currentUser = repository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuário: " + username + " não encontrado"));
