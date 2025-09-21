@@ -1,7 +1,6 @@
 package me.lucasgusmao.straw_wallet_api.dto;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import me.lucasgusmao.straw_wallet_api.model.CategoryType;
 
 import java.time.LocalDateTime;
