@@ -5,6 +5,7 @@ import me.lucasgusmao.straw_wallet_api.dto.CategoryDTO;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.AlreadyExistsException;
 import me.lucasgusmao.straw_wallet_api.mappers.CategoryMapper;
 import me.lucasgusmao.straw_wallet_api.model.Category;
+import me.lucasgusmao.straw_wallet_api.model.CategoryType;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,12 @@ public class CategoryService {
     public List<CategoryDTO> findCurrentUserCategories() {
         User user = userService.getCurrentUser();
         List<Category> categories = repository.findByUserId(user.getId());
+        return categories.stream().map(mapper::toDTO).toList();
+    }
+
+    public List<CategoryDTO> findCurrentUserCategoriesByType(CategoryType type) {
+        User user = userService.getCurrentUser();
+        List<Category> categories = repository.findByTypeAndUserId(type, user.getId());
         return categories.stream().map(mapper::toDTO).toList();
     }
 
