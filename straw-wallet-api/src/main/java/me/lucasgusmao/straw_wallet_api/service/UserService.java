@@ -10,7 +10,7 @@ import me.lucasgusmao.straw_wallet_api.exceptions.custom.InvalidCredentialsExcep
 import me.lucasgusmao.straw_wallet_api.mappers.UserMapper;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.UserRepository;
-import me.lucasgusmao.straw_wallet_api.util.JwtUtils;
+import me.lucasgusmao.straw_wallet_api.utils.JwtUtils;
 import me.lucasgusmao.straw_wallet_api.validator.UserValidator;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
