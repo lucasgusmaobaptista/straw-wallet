@@ -1,4 +1,4 @@
-package me.lucasgusmao.straw_wallet_api.dto;
+package me.lucasgusmao.straw_wallet_api.dto.user;
 
 public record AuthDTO(
         String username,
