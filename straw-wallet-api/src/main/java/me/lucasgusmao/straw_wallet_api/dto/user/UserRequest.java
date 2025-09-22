@@ -1,12 +1,13 @@
-package me.lucasgusmao.straw_wallet_api.dto;
+package me.lucasgusmao.straw_wallet_api.dto.user;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public record UserDTO(
+public record UserRequest(
         @NotBlank(message = "Campo obrigatório!")
         String name,
         @Size(min = 3, max = 50, message = "O nome de usuário deve ter entre 3 e 50 caracteres.")

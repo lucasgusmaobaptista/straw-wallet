@@ -3,7 +3,8 @@ package me.lucasgusmao.straw_wallet_api.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.lucasgusmao.straw_wallet_api.dto.AuthDTO;
-import me.lucasgusmao.straw_wallet_api.dto.UserDTO;
+import me.lucasgusmao.straw_wallet_api.dto.user.UserRequest;
+import me.lucasgusmao.straw_wallet_api.dto.user.UserResponse;
 import me.lucasgusmao.straw_wallet_api.event.UserRegisteredEvent;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.InvalidCredentialsException;
 import me.lucasgusmao.straw_wallet_api.mappers.UserMapper;
@@ -37,7 +38,7 @@ public class UserService {
     private final JwtUtils jwtUtils;
 
     @Transactional
-    public UserDTO register(UserDTO userDTO) {
+    public UserResponse register(UserRequest userDTO) {
         User newUser = mapper.toEntity(userDTO);
 
         String username = extractUsernameFromEmail(newUser.getEmail());
@@ -45,12 +46,12 @@ public class UserService {
         userValidator.validate(newUser);
         newUser.setActivationToken(UUID.randomUUID().toString());
         newUser.setPassword(encoder.encode(newUser.getPassword()));
-
         User savedUser = repository.save(newUser);
 
         applicationEventPublisher.publishEvent(new UserRegisteredEvent(savedUser));
 
-        return mapper.toDTO(savedUser);
+        UserResponse response = mapper.toResponse(savedUser);
+        return response;
     }
 
     public User getCurrentUser() {
@@ -60,7 +61,7 @@ public class UserService {
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário: " +   authentication.getName() + " não encontrado"));
     }
 
-    public UserDTO getUser(String username) {
+    public UserResponse getUser(String username) {
         User currentUser;
         if (username == null) {
             currentUser = getCurrentUser();
@@ -68,7 +69,7 @@ public class UserService {
             currentUser = repository.findByUsername(username)
                     .orElseThrow(() -> new UsernameNotFoundException("Usuário: " + username + " não encontrado"));
         }
-        return mapper.toDTO(currentUser);
+        return mapper.toResponse(currentUser);
     }
 
     public Map<String, Object> authenticateAndGenerateToken(AuthDTO dto) {

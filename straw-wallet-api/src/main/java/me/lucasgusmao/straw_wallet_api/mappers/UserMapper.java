@@ -1,13 +1,14 @@
 package me.lucasgusmao.straw_wallet_api.mappers;
 
-import me.lucasgusmao.straw_wallet_api.dto.UserDTO;
+import me.lucasgusmao.straw_wallet_api.dto.user.UserRequest;
+import me.lucasgusmao.straw_wallet_api.dto.user.UserResponse;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
-    User toEntity(UserDTO userDTO);
+    User toEntity(UserRequest userDTO);
 
-    UserDTO toDTO(User user);
+    UserResponse toResponse(User user);
 }

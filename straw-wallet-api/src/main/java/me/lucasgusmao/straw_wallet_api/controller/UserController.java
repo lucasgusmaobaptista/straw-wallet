@@ -3,7 +3,8 @@ package me.lucasgusmao.straw_wallet_api.controller;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.lucasgusmao.straw_wallet_api.dto.AuthDTO;
-import me.lucasgusmao.straw_wallet_api.dto.UserDTO;
+import me.lucasgusmao.straw_wallet_api.dto.user.UserRequest;
+import me.lucasgusmao.straw_wallet_api.dto.user.UserResponse;
 import me.lucasgusmao.straw_wallet_api.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,8 @@ public class UserController {
     private final UserService service;
 
     @PostMapping("/register")
-    public ResponseEntity<UserDTO> register(@RequestBody @Valid UserDTO dto) {
-        UserDTO user = service.register(dto);
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid UserRequest dto) {
+        UserResponse user = service.register(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 

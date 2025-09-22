@@ -1,4 +1,4 @@
-package me.lucasgusmao.straw_wallet_api.dto;
+package me.lucasgusmao.straw_wallet_api.dto.category;
 
 import jakarta.validation.constraints.NotBlank;
 import me.lucasgusmao.straw_wallet_api.model.CategoryType;
@@ -6,8 +6,7 @@ import me.lucasgusmao.straw_wallet_api.model.CategoryType;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public record CategoryDTO(
-
+public record CategoryRequest(
         @NotBlank(message = "Campo obrigatório!")
         String name,
         CategoryType type,

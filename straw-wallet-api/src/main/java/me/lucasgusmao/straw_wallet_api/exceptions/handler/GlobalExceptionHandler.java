@@ -2,6 +2,7 @@ package me.lucasgusmao.straw_wallet_api.exceptions.handler;
 
 import jakarta.persistence.EntityNotFoundException;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.AlreadyExistsException;
+import me.lucasgusmao.straw_wallet_api.exceptions.custom.CategoryNotFoundException;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.EmailSendException;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.InvalidCredentialsException;
 import me.lucasgusmao.straw_wallet_api.exceptions.response.ResponseError;
@@ -50,6 +51,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseError handleInvalidCredentials(InvalidCredentialsException e) {
         return new ResponseError(HttpStatus.BAD_REQUEST.value(), "Credenciais inválidas: " + e.getMessage(), List.of());
+    }
+
+    @ExceptionHandler(CategoryNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseError handleCategoryNotFoundException(CategoryNotFoundException e) {
+        return new ResponseError(HttpStatus.NOT_FOUND.value(), "Categoria não encontrada: " + e.getMessage(), List.of());
     }
 
 }
