@@ -4,7 +4,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.lucasgusmao.straw_wallet_api.dto.category.CategoryRequest;
 import me.lucasgusmao.straw_wallet_api.dto.category.CategoryResponse;
-import me.lucasgusmao.straw_wallet_api.model.CategoryType;
+import me.lucasgusmao.straw_wallet_api.model.enums.CategoryType;
 import me.lucasgusmao.straw_wallet_api.service.CategoryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

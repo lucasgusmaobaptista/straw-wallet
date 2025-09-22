@@ -1,7 +1,7 @@
 package me.lucasgusmao.straw_wallet_api.repository;
 
 import me.lucasgusmao.straw_wallet_api.model.Category;
-import me.lucasgusmao.straw_wallet_api.model.CategoryType;
+import me.lucasgusmao.straw_wallet_api.model.enums.CategoryType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
