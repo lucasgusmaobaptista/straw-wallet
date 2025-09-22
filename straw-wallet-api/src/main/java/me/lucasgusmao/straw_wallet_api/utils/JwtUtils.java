@@ -1,4 +1,4 @@
-package me.lucasgusmao.straw_wallet_api.util;
+package me.lucasgusmao.straw_wallet_api.utils;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
