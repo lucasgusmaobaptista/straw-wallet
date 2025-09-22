@@ -1,6 +1,5 @@
 package me.lucasgusmao.straw_wallet_api.service;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import me.lucasgusmao.straw_wallet_api.dto.user.AuthDTO;
 import me.lucasgusmao.straw_wallet_api.dto.user.UserRequest;
@@ -20,6 +19,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Map;
 import java.util.UUID;

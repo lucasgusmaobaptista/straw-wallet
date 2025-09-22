@@ -11,6 +11,7 @@ import me.lucasgusmao.straw_wallet_api.model.enums.CategoryType;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -23,6 +24,7 @@ public class CategoryService {
     private final CategoryRepository repository;
     private final CategoryMapper mapper;
 
+    @Transactional
     public CategoryResponse save(CategoryRequest dto) {
         User user = userService.getCurrentUser();
         if (repository.existsByNameAndUserId(dto.name(), user.getId())) {
@@ -46,6 +48,7 @@ public class CategoryService {
         return categories.stream().map(mapper::toResponse).toList();
     }
 
+    @Transactional
     public CategoryResponse update(UUID id, CategoryRequest dto) {
         User user = userService.getCurrentUser();
         Category categoryFound = repository.findByIdAndUserId(id, user.getId())
