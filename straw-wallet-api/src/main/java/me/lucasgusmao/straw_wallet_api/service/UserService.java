@@ -2,7 +2,7 @@ package me.lucasgusmao.straw_wallet_api.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import me.lucasgusmao.straw_wallet_api.dto.AuthDTO;
+import me.lucasgusmao.straw_wallet_api.dto.user.AuthDTO;
 import me.lucasgusmao.straw_wallet_api.dto.user.UserRequest;
 import me.lucasgusmao.straw_wallet_api.dto.user.UserResponse;
 import me.lucasgusmao.straw_wallet_api.event.UserRegisteredEvent;
