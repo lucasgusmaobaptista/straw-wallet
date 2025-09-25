@@ -64,7 +64,7 @@ public class IncomeService {
 
     public BigDecimal getUserTotal() {
         User user = userService.getCurrentUser();
-        BigDecimal totalIncomesByUserId = repository.findTotalExpensesByUserId(user.getId());
+        BigDecimal totalIncomesByUserId = repository.findTotalIncomesByUserId(user.getId());
         return totalIncomesByUserId != null ? totalIncomesByUserId : BigDecimal.ZERO;
     }
 }
