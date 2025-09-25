@@ -17,6 +17,5 @@ public interface ExpenseMapper {
 
     @Mapping(source = "category.id", target = "categoryId")
     @Mapping(source = "category.name", target = "categoryName")
-    @Mapping(source = "user.id", target = "userId")
     ExpenseResponse toResponse(Expense entity);
 }

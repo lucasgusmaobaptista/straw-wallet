@@ -18,6 +18,5 @@ public interface IncomeMapper {
 
     @Mapping(source = "category.id", target = "categoryId")
     @Mapping(source = "category.name", target = "categoryName")
-    @Mapping(source = "user.id", target = "userId")
     IncomeResponse toResponse(Income entity);
 }
