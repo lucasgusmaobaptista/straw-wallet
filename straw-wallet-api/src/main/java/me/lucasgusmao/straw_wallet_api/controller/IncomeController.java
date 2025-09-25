@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/incomes")
@@ -27,5 +28,11 @@ public class IncomeController {
     public ResponseEntity<List<IncomeResponse>> get() {
         List<IncomeResponse> incomes = service.getUserCurrentMonth();
         return ResponseEntity.ok(incomes);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
