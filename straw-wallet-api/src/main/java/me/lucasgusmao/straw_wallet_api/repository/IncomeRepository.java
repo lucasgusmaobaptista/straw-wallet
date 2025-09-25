@@ -19,7 +19,7 @@ public interface IncomeRepository extends JpaRepository<Income, UUID> {
     List<Income> findTop5ByUserIdOrderByDateDesc(UUID userId);
 
     @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.user.id = :userId")
-    BigDecimal findTotalExpensesByUserId(@Param("userId") UUID userId);
+    BigDecimal findTotalIncomesByUserId(@Param("userId") UUID userId);
 
     List<Income> findByUserIdAndDateBetweenAndNameContainingIgnoreCase(UUID userId, LocalDate startDate, LocalDate endDate, String name);
 
