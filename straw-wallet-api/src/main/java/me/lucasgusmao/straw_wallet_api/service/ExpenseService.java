@@ -28,6 +28,8 @@ public class ExpenseService {
         Category category = categoryRepository.findById(dto.categoryId())
                 .orElseThrow(() -> new CategoryNotFoundException("Categoria não encontrada"));
         Expense newExpense = mapper.toEntity(dto);
+        newExpense.setCategory(category);
+        newExpense.setUser(user);
         newExpense = repository.save(newExpense);
 
         return mapper.toResponse(newExpense);
