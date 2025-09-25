@@ -6,7 +6,6 @@ import me.lucasgusmao.straw_wallet_api.dto.income.IncomeResponse;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.CategoryNotFoundException;
 import me.lucasgusmao.straw_wallet_api.mappers.IncomeMapper;
 import me.lucasgusmao.straw_wallet_api.model.Category;
-import me.lucasgusmao.straw_wallet_api.model.Expense;
 import me.lucasgusmao.straw_wallet_api.model.Income;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +44,15 @@ public class IncomeService {
         LocalDate finalDate = date.withDayOfMonth(date.lengthOfMonth());
         List<Income> result = repository.findByUserIdAndDateBetween(user.getId(), startDate, finalDate);
         return result.stream().map(mapper::toResponse).toList();
+    }
+
+    public void delete(UUID id) {
+        User user = userService.getCurrentUser();
+        Income expense = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Renda não encontrada"));
+        if(!expense.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Você não tem permissão para deletar essa renda");
+        }
+        repository.deleteById(id);
     }
 }

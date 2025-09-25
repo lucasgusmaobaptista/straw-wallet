@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +45,15 @@ public class ExpenseService {
         LocalDate finalDate = date.withDayOfMonth(date.lengthOfMonth());
         List<Expense> result = repository.findByUserIdAndDateBetween(user.getId(), startDate, finalDate);
         return result.stream().map(mapper::toResponse).toList();
+    }
+
+    public void delete(UUID id) {
+        User user = userService.getCurrentUser();
+        Expense expense = repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Despesa não encontrada"));
+        if(!expense.getUser().getId().equals(user.getId())) {
+            throw new RuntimeException("Você não tem permissão para deletar essa despesa");
+        }
+        repository.deleteById(id);
     }
 }
