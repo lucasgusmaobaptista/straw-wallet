@@ -1,6 +1,7 @@
 package me.lucasgusmao.straw_wallet_api.repository;
 
 import me.lucasgusmao.straw_wallet_api.model.Expense;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,7 +22,7 @@ public interface ExpenseRepository extends JpaRepository<Expense, UUID> {
     @Query("SELECT SUM(e.amount) FROM Expense e WHERE e.user.id = :userId")
     BigDecimal findTotalExpensesByUserId(@Param("userId") UUID userId);
 
-    List<Expense> findByUserIdAndDateBetweenAndNameContainingIgnoreCase(UUID userId, LocalDate startDate, LocalDate endDate, String name);
+    List<Expense> findByUserIdAndDateBetweenAndNameContainingIgnoreCase(UUID userId, LocalDate startDate, LocalDate endDate, String name, Sort sort);
 
     List<Expense> findByUserIdAndDateBetween(UUID userId, LocalDate startDate, LocalDate endDate);
 }
