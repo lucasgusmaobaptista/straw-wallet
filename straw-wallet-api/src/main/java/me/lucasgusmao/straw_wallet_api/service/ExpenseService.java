@@ -12,6 +12,8 @@ import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import me.lucasgusmao.straw_wallet_api.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,5 +35,14 @@ public class ExpenseService {
         newExpense = repository.save(newExpense);
 
         return mapper.toResponse(newExpense);
+    }
+
+    public List<ExpenseResponse> getUserCurrentMonth() {
+        User user = userService.getCurrentUser();
+        LocalDate date = LocalDate.now();
+        LocalDate startDate = date.withDayOfMonth(1);
+        LocalDate finalDate = date.withDayOfMonth(date.lengthOfMonth());
+        List<Expense> result = repository.findByUserIdAndDateBetween(user.getId(), startDate, finalDate);
+        return result.stream().map(mapper::toResponse).toList();
     }
 }
