@@ -6,7 +6,7 @@ import me.lucasgusmao.straw_wallet_api.model.Expense;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface ExpenseMapper {
 
     @Mapping(target = "id", ignore = true)
