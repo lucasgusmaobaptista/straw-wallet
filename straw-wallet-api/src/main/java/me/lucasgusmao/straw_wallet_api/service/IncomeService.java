@@ -1,17 +1,20 @@
 package me.lucasgusmao.straw_wallet_api.service;
 
 import lombok.RequiredArgsConstructor;
+import me.lucasgusmao.straw_wallet_api.dto.expense.ExpenseResponse;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeRequest;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeResponse;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.CategoryNotFoundException;
 import me.lucasgusmao.straw_wallet_api.mappers.IncomeMapper;
 import me.lucasgusmao.straw_wallet_api.model.Category;
+import me.lucasgusmao.straw_wallet_api.model.Expense;
 import me.lucasgusmao.straw_wallet_api.model.Income;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import me.lucasgusmao.straw_wallet_api.repository.IncomeRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
@@ -54,5 +57,16 @@ public class IncomeService {
             throw new RuntimeException("Você não tem permissão para deletar essa renda");
         }
         repository.deleteById(id);
+    }
+    public List<IncomeResponse>  getUserLatest5Expenses() {
+        User user = userService.getCurrentUser();
+        List<Income> incomes = repository.findByUserIdOrderByDateDesc(user.getId());
+        return incomes.stream().limit(5).map(mapper::toResponse).toList();
+    }
+
+    public BigDecimal getUserTotal() {
+        User user = userService.getCurrentUser();
+        BigDecimal totalIncomesByUserId = repository.findTotalExpensesByUserId(user.getId());
+        return totalIncomesByUserId != null ? totalIncomesByUserId : BigDecimal.ZERO;
     }
 }

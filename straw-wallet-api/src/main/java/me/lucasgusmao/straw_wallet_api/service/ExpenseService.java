@@ -12,6 +12,7 @@ import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import me.lucasgusmao.straw_wallet_api.repository.ExpenseRepository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -55,5 +56,17 @@ public class ExpenseService {
             throw new RuntimeException("Você não tem permissão para deletar essa despesa");
         }
         repository.deleteById(id);
+    }
+
+    public List<ExpenseResponse>  getUserLatest5Expenses() {
+        User user = userService.getCurrentUser();
+        List<Expense> expenses = repository.findByUserIdOrderByDateDesc(user.getId());
+        return expenses.stream().limit(5).map(mapper::toResponse).toList();
+    }
+
+    public BigDecimal getUserTotal() {
+        User user = userService.getCurrentUser();
+        BigDecimal totalExpensesByUserId = repository.findTotalExpensesByUserId(user.getId());
+       return totalExpensesByUserId != null ? totalExpensesByUserId : BigDecimal.ZERO;
     }
 }
