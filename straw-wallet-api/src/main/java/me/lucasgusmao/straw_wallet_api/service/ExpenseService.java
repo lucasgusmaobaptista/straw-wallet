@@ -10,7 +10,9 @@ import me.lucasgusmao.straw_wallet_api.model.Expense;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import me.lucasgusmao.straw_wallet_api.repository.ExpenseRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -27,6 +29,7 @@ public class ExpenseService {
     private  final UserService userService;
     private final ExpenseMapper mapper;
 
+    @Transactional
     public ExpenseResponse add(ExpenseRequest dto) {
         User user = userService.getCurrentUser();
         Category category = categoryRepository.findById(dto.categoryId())
@@ -68,5 +71,11 @@ public class ExpenseService {
         User user = userService.getCurrentUser();
         BigDecimal totalExpensesByUserId = repository.findTotalExpensesByUserId(user.getId());
        return totalExpensesByUserId != null ? totalExpensesByUserId : BigDecimal.ZERO;
+    }
+
+    public List<ExpenseResponse> filter(LocalDate startDate, LocalDate endDate, String keyword, Sort sort) {
+        User user = userService.getCurrentUser();
+        List<Expense> expenses = repository.findByUserIdAndDateBetweenAndNameContainingIgnoreCase(user.getId(), startDate, endDate, keyword, sort);
+        return expenses.stream().map(mapper::toResponse).toList();
     }
 }

@@ -1,16 +1,20 @@
 package me.lucasgusmao.straw_wallet_api.service;
 
 import lombok.RequiredArgsConstructor;
+import me.lucasgusmao.straw_wallet_api.dto.expense.ExpenseResponse;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeRequest;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeResponse;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.CategoryNotFoundException;
 import me.lucasgusmao.straw_wallet_api.mappers.IncomeMapper;
 import me.lucasgusmao.straw_wallet_api.model.Category;
+import me.lucasgusmao.straw_wallet_api.model.Expense;
 import me.lucasgusmao.straw_wallet_api.model.Income;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;
 import me.lucasgusmao.straw_wallet_api.repository.IncomeRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -26,6 +30,7 @@ public class IncomeService {
     private final UserService userService;
     private final IncomeMapper mapper;
 
+    @Transactional
     public IncomeResponse add(IncomeRequest dto) {
         User user = userService.getCurrentUser();
         Category category = categoryRepository.findById(dto.categoryId())
@@ -66,5 +71,11 @@ public class IncomeService {
         User user = userService.getCurrentUser();
         BigDecimal totalIncomesByUserId = repository.findTotalIncomesByUserId(user.getId());
         return totalIncomesByUserId != null ? totalIncomesByUserId : BigDecimal.ZERO;
+    }
+
+    public List<IncomeResponse> filter(LocalDate startDate, LocalDate endDate, String keyword, Sort sort) {
+        User user = userService.getCurrentUser();
+        List<Income> incomes = repository.findByUserIdAndDateBetweenAndNameContainingIgnoreCase(user.getId(), startDate, endDate, keyword, sort);
+        return incomes.stream().map(mapper::toResponse).toList();
     }
 }
