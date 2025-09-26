@@ -1,4 +1,4 @@
-package me.lucasgusmao.straw_wallet_api.dto;
+package me.lucasgusmao.straw_wallet_api.dto.other;
 
 import lombok.Builder;
 import me.lucasgusmao.straw_wallet_api.model.enums.CategoryType;
