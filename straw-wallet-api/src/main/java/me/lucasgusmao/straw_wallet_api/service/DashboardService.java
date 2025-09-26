@@ -1,7 +1,7 @@
 package me.lucasgusmao.straw_wallet_api.service;
 
 import lombok.RequiredArgsConstructor;
-import me.lucasgusmao.straw_wallet_api.dto.RecentTransactionDTO;
+import me.lucasgusmao.straw_wallet_api.dto.other.RecentTransactionDTO;
 import me.lucasgusmao.straw_wallet_api.dto.expense.ExpenseResponse;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeResponse;
 import me.lucasgusmao.straw_wallet_api.model.User;
