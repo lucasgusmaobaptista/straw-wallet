@@ -1,7 +1,0 @@
-#PostgreSQL Database Configuration for Production Environment
-spring:
-  datasource:
-    url: jdbc:postgresql://dpg-d3bdf0e3jp1c73av092g-a.oregon-postgres.render.com/fluxxoapp
-    username: fluxxoapp_user
-    password: hfoLMiklV4MyB0lAdQXqwnQowavJx5w6
-    driver-class-name: org.postgresql.Driver
