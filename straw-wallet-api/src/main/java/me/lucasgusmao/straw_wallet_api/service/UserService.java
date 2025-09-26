@@ -31,7 +31,6 @@ public class UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     private final UserValidator userValidator;
-    private final EmailService emailService;
     private final PasswordEncoder encoder;
     private final ApplicationEventPublisher applicationEventPublisher;
     private final AuthenticationManager authenticationManager;
