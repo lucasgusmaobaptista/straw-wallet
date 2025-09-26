@@ -1,7 +1,5 @@
 #Database and Mail Sender Configs
 spring:
-  application:
-    name: straw-wallet-api
   datasource:
     url: jdbc:postgresql://localhost:5432/strawwalletdb
     username: postgres
@@ -27,11 +25,14 @@ spring:
           starttls:
             enable: true
     protocol: smtp
-
+  profiles:
+    active: prod
 server:
   servlet:
     context-path: /api/v1
-
 jwt:
   secret: dGVzdGVfc2VjcmV0X2tleV9mb3Jfand0X3Rva2VuX2dlbmVyYXRpb25fMTIzNDU2Nzg5MA==
   expiration: 86400000
+application:
+  activation:
+    url: ${FLUXXOAPP_BACKEND_URL}
