@@ -3,6 +3,7 @@ package me.lucasgusmao.straw_wallet_api.event;
 import lombok.RequiredArgsConstructor;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.service.EmailService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
@@ -13,11 +14,14 @@ public class UserEventListener {
 
     private final EmailService emailService;
 
+    @Value("${application.activation.url}")
+    private String activationURL;
+
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     public void handleUserRegistered(UserRegisteredEvent event) {
         User user = event.user();
 
-        String activationLink = "http://localhost:8080/api/v1/activate?token=" + user.getActivationToken();
+        String activationLink = activationURL + "/api/v1/activate?token=" + user.getActivationToken();
         String subject = "Confirmação de E-mail - Fluxxo App";
         String body =
                 "<div class='container' style='max-width: 600px; margin: 30px auto; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;'>" +
