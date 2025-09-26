@@ -1,13 +1,11 @@
 package me.lucasgusmao.straw_wallet_api.service;
 
 import lombok.RequiredArgsConstructor;
-import me.lucasgusmao.straw_wallet_api.dto.expense.ExpenseResponse;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeRequest;
 import me.lucasgusmao.straw_wallet_api.dto.income.IncomeResponse;
 import me.lucasgusmao.straw_wallet_api.exceptions.custom.CategoryNotFoundException;
 import me.lucasgusmao.straw_wallet_api.mappers.IncomeMapper;
 import me.lucasgusmao.straw_wallet_api.model.Category;
-import me.lucasgusmao.straw_wallet_api.model.Expense;
 import me.lucasgusmao.straw_wallet_api.model.Income;
 import me.lucasgusmao.straw_wallet_api.model.User;
 import me.lucasgusmao.straw_wallet_api.repository.CategoryRepository;

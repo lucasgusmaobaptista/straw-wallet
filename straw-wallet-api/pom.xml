@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>me.lucasgusmao</groupId>
-	<artifactId>straw-wallet-api</artifactId>
+	<artifactId>fluxxoapp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>straw-wallet-api</name>
 	<description>Demo project for Spring Boot</description>
